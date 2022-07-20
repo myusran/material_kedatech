@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record id="material_tree" model="ir.ui.view">
+		<field name="name">user.material.tree</field>
+		<field name="model">user.material</field>
+		<field name="arch" type="xml">
+			<tree string="Materials">
+				<field name="material_code" />
+				<field name="material_name" />
+				<field name="material_price" />
+				<field name="material_type" />
+				<field name="related_supp" />
+			</tree>
+		</field>
+	</record>
+	
+	<record id="material_form" model="ir.ui.view">
+		<field name="name">user.material.form</field>
+		<field name="model">user.material</field>
+		<field name="arch" type="xml">
+			<form string="Materials">
+				<sheet>
+					<group>
+						<field name="material_code" />
+						<field name="material_name" />
+						<field name="material_price" />
+						<field name="material_type" />
+						<field name="related_supp" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	<!-- Search View -->
+	<record model="ir.ui.view" id="user_material_search">
+		<field name="name">user.material.search</field>
+		<field name="model">user.material</field>
+		<field name="arch" type="xml">
+			<search string="Search Material">
+				<field name="material_name"  filter_domain="['|',('material_name', 'ilike', self),('material_code', 'ilike', self)]"  />
+				<field name="material_code"/>
+				<separator />
+				
+				<filter string="Fabric" name="fabric" domain="[('material_type','=','fabric')]"/>
+				<filter string="Jeans" name="jeans" domain="[('material_type','=','jeans')]"/>
+				<filter string="Cotton" name="cotton" domain="[('material_type','=','cotton')]"/>
+				
+				<group string="Group by">
+					<filter string="Material Type" name="material_type" context="{'group_by': 'material_type'}"  />
+				</group>
+			</search>
+		</field>
+	</record>
+	
+	<record id="action_material" model="ir.actions.act_window">
+		<field name="name">Material</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">user.material</field>
+		<field name="view_mode">kanban,tree,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smilling_face">Create first Material !</p>
+		</field>
+	</record>
+
+	<menuitem id="material_root" name="Material"/>
+	
+	<menuitem id="material_list" name="Material List" parent="material_root" action="action_material"/>
+</odoo>
